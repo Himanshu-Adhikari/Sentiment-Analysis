@@ -6,11 +6,13 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-
+.env
 node_modules
 dist
 dist-ssr
 *.local
+UI/mini/western-shuttle-428905-p6-28f6fdfbeb5c.json
+UI/mini/western-shuttle-428905-p6-e219a4fe0c4e.json
 
 # Editor directories and files
 .vscode/*

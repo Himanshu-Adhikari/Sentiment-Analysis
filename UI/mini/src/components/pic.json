@@ -1,0 +1,11 @@
+[
+    {"Very negative":"./pics/verysad.jpg",
+"Negative":"./pics/sad.jpg",    
+"Neutral":"./pics/neutral.jpg",
+     
+"Positive":"./pics/happy.jpg",
+    
+"Very positive":"./pics/veryhappy.jpg"
+
+    }
+]

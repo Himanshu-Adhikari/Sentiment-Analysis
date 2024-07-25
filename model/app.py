@@ -4,7 +4,6 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from google.cloud import translate_v2 as translate
 from flask_cors import CORS
 import os
-
 # Load environment variables
 from dotenv import load_dotenv
 load_dotenv()
@@ -20,6 +19,18 @@ def home():
 mdl = AutoModelForSequenceClassification.from_pretrained('nlptown/bert-base-multilingual-uncased-sentiment')
 tokenizer = AutoTokenizer.from_pretrained('nlptown/bert-base-multilingual-uncased-sentiment')
 mdl.eval()
+import google.generativeai as genai
+
+#GEMINI KEY
+ApiKey='AIzaSyDELCLw1s8HV5gBSVD7mxeZwn9i4kh6L8w'
+
+#assign APIKEY
+genai.configure(
+  api_key=ApiKey
+)
+
+Genmodel=genai.GenerativeModel('gemini-pro')
+chat=Genmodel.start_chat()
 
 # Initialize Google Cloud Translate client
 translate_client = translate.Client()
@@ -34,7 +45,7 @@ def predict_sentiment():
     
     # Translate text to English
     translated_text = translate_text(text)
-
+    print(translated_text)
     # Tokenize and get prediction
     inputs = tokenizer.encode(translated_text, return_tensors='pt')
     
@@ -51,7 +62,10 @@ def predict_sentiment():
     }
     
     predicted_sentiment = sentiment_labels[predicted_class.item()]
-    return jsonify({'sentiment': predicted_sentiment})
+    
+    response=chat.send_message("Give short consize feedback(in 1-2 sentences) to someone feeling "+predicted_sentiment+" and  saying:"+text+".")
+    feedback=response.text
+    return jsonify({'sentiment': predicted_sentiment,'feedback':feedback})
 
 @app.route('/favicon.ico')
 def favicon():
